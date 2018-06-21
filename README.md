@@ -8,7 +8,29 @@ Dispositivo protótipo de climatizador concebido enquanto eu estagiava no Hospit
 **W.I.P.**
 _work in progress_
 
+```console
+git clone
+```
+
+Segundo [esse link](https://www.arduino.cc/en/guide/libraries), para tornar tudo mais eficiente, você deve copiar o conteúdo da pasta Libraries para a sua pasta de bibliotecas, na pasta de **Sketchbook** do Arduino IDE:
+
+
+#### macOS ou GNU/Linux
+```bash
+cp climate_controller-arduino/libraries/*  ~/Documents/Arduino/libraries/
+```
+_Acho que "Documents" pode estar diferente no seu caminho... tente "*Documents" !_
+
+#### Windows
+```console
+cd climate_controller-arduino\libraries\*  %USERDIR%\Documents\Arduino\libraries\
+```
+
+
+-----
+
 ### Sobre as bibliotecas
+
 
 >ArduinoJSON
 > - Melhor que a biblioteca que usei anteriormente (esqueci nome)
@@ -17,6 +39,8 @@ _work in progress_
 > - Significa: **economizar MUITA SRAM**
 
 > etc e tal...
+
+-----
 
 ### Compilando com o AVR-GCC do Arduino IDE
 
