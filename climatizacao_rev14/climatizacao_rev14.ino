@@ -34,19 +34,19 @@ struct SensorData {
 
 struct ProgramaHorario { //Auto, Busy, e Status... você acessa "struct SensorData"... 
                          //precisamos economizar memória
-  uint16_t    pd1;
-  uint16_t    pd2;
-  uint16_t    pl1;
-  uint16_t    pl2; 
+  unsigned char    pd1[5];
+  unsigned char    pd2[5];
+  unsigned char    pl1[5];
+  unsigned char    pl2[5]; 
   
-  uint8_t     mask;
-  uint8_t     domingo;
-  uint8_t     segunda;
-  uint8_t     terca;
-  uint8_t     quarta;
-  uint8_t     quinta;
-  uint8_t     sexta;
-  uint8_t     sabado;        
+  uint8_t             mask;
+  uint8_t             domingo;
+  uint8_t             segunda;
+  uint8_t             terca;
+  uint8_t             quarta;
+  uint8_t             quinta;
+  uint8_t             sexta;
+  uint8_t             sabado;        
   
 };
 
@@ -101,7 +101,7 @@ void deserialize(SensorData& data, char* json)
 
      //previne sobrescrever valores na estrutura "nulos ou zeros", 
      //caso não tenha recebido um JSON válido
-
+         //String bfr;
          if (root.containsKey("a")) {
           data.Auto      = root["a"];
          }
@@ -111,7 +111,7 @@ void deserialize(SensorData& data, char* json)
          }
 
          if (root.containsKey("m")){
-          data.Pres      = root["m"]; 
+          prog.mask      = root["m"]; 
          }
 
          if (root.containsKey("p")) {
@@ -119,19 +119,27 @@ void deserialize(SensorData& data, char* json)
          }
 
          if (root.containsKey("pd1")) {
-          prog.pd1       = root["pd1"]; 
+          prog.pd1       = root["pd1"];
+          //bfr = root["pd1"];
+          //bfr.toCharArray(bfr,4);
          }
 
          if (root.containsKey("pd2")){
-          prog.pd2       = root["pd2"]; 
+          prog.pd2       = root["pd2"];
+          //bfr = root["pd2"];
+          //bfr.toCharArray(bfr,4);
          }
 
          if (root.containsKey("pl1")) {
-          prog.pl1       = root["pl1"]; 
+          prog.pl1       = root["pl1"];
+          //bfr = root["pl1"];
+          //bfr.toCharArray(bfr,4);
          }
 
          if (root.containsKey("pl2")) {
-          prog.pl2       = root["pl2"]; 
+          prog.pl2       = root["pl2"];
+          //bfr = root["pl2"];
+          //bfr.toCharArray(bfr,4); 
          }
 
          if (root.containsKey("s")) {
@@ -167,11 +175,15 @@ void deserialize(SensorData& data, char* json)
 void lerSerial(String texto, char* teste){
     //lê "String texto" vindo da "Serial" e copia para "char texto[JSON_OUT_SIZE]"
     //--> falta implementar anti-DDoS pela porta serial
-    
-    texto = Serial.readString();
-    Serial.setTimeout(1000);  //in milliseconds - devo definir isso? evita um tipo de DDoS pela porta serial.
-    texto.toCharArray(teste, JSON_OUT_SIZE);
-    //Serial.println(teste);    //não precisa imprimir o que recebeu - sem loopback/echo  
+    if(Serial.available() > 0) {
+      //Serial.println(Serial.available());
+      texto = Serial.readString();
+      //texto = "aa";
+      Serial.setTimeout(1000);  //in milliseconds - devo definir isso? evita um tipo de DDoS pela porta serial.
+      //Serial.println(texto);
+      texto.getBytes(teste, JSON_OUT_SIZE);
+      //Serial.println(teste);    //não precisa imprimir o que recebeu - sem loopback/echo
+    }  
 }
 
 
