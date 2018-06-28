@@ -397,8 +397,8 @@ void setup(void)
   root.set("t3", 26);
   root.set("t1", 20);
   root.set("tt", 15);
-  root.set("m", "127");
-  
+  root.set("m", 127);
+  root.set("p", 1);
   fsm_state = STATE_OFF;
   if (! rtc.begin()) {
     /*Serial.println("Couldn't find RTC");*/
@@ -430,7 +430,7 @@ void setup(void)
   // printAddress(tempDeviceAddress);
 
   sensors.requestTemperatures(); // Send the command to get temperatures
-  temperatura = sensors.getTempCByIndex(0);
+  temperatura = (unsigned int)sensors.getTempCByIndex(0);
   root.set("t2", temperatura);
 
   // Atualizar o estado inicial das variaveis
@@ -461,7 +461,7 @@ void loop(void)
 
   //envia valor de pinPres (D7) --> variável "Pres"
   //data.Pres        = digitalRead(pinPres); 
-    root.set("t2", digitalRead(pinPres));
+    //root.set("t2", (unsigned int)digitalRead(pinPres));
     /*
     if (temGente == 1){
       data.Pres = 1;      
@@ -498,7 +498,7 @@ void loop(void)
   }
 
   sensors.requestTemperatures(); // Send the command to get temperatures
-  temperatura = sensors.getTempCByIndex(0);
+  temperatura = (unsigned int)sensors.getTempCByIndex(0);
   root.set("t2", temperatura);
 
   // Se o tempo de trigger passar, ativar.
