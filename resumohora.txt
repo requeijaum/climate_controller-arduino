@@ -1,0 +1,65 @@
+intervalo {
+	carrega vars {
+		pega pl's dos globais
+		pega dias dos globais
+		pega semana dos globais
+		pega texto dos globais
+		numeros tratados {
+			pega as horas e minutos de pl1 pd1 pl2 pd2 coloca em a1 a2....
+		}
+		fpl1 {
+			pega valor do evento coloca em pl1
+		}
+		fpl2 {
+			pega valor do evento coloca em pl2
+		}
+		fpd1 {
+			pega valor do evento coloca em pd1
+		}
+		fpd2 {
+			pega valor do evento coloca em pd2
+		}
+	}
+		
+}
+
+checkboxes {
+	botao de enviar {
+		testa semana em objeto {
+			ajeita dias
+		}
+		//coloca dias na global COMENTEI
+		envia checkbox {	
+			//pega os dias da global COMENTEI
+			zera a mask
+			atribui valores a mask
+			//coloca mask na global COMENTEI
+			envia progs {
+				carrega vars {
+					pega pl's dos globais
+					pega dias dos globais
+					pega semana dos globais
+					pega texto dos globais
+					numeros tratados {
+						pega as horas e minutos de pl1 pd1 pl2 pd2 coloca em a1 a2....
+					}
+					fpl1 {
+						pega valor do evento coloca em pl1
+					}
+					fpl2 {
+						pega valor do evento coloca em pl2
+					}
+					fpd1 {
+						pega valor do evento coloca em pd1
+					}
+					fpd2 {
+						pega valor do evento coloca em pd2
+					}
+				}
+				seta o texto a ser enviad por bluetooth, envia.
+			}
+			carregar event {
+				pega as horas e minutos de a1 a2 a3 e atribui ao evento
+			}
+	}
+}

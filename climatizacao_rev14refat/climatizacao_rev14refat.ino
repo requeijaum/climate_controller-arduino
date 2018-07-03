@@ -51,12 +51,12 @@ void deserialize(char* jsonstr)
    // }
     //else {
     //  Serial.println("SEM SUCESSO");
-    //} {"m": 127 ,"p": 1 ,"pd1": "1700" ,"pd2": "1200" ,"pl1": "9999" ,"pl2": "9999" ,"t1": 23 ,"t3": 25 ,"tt": 5 }
+    //} {"m": 127 ,"pd1": "1700" ,"pd2": "1200" ,"pl1": "9999" ,"pl2": "9999" ,"t1": 23 ,"t3": 25 ,"tt": 5 }
     String teste = String(jsonstr);
     //Serial.print("testeconversao = ");
-    //Serial.println(teste);
-    signed int index,indexf,indexl;
-    String temp;
+    Serial.println(teste);
+    signed int index = -1,indexf = -1,indexl = -1;
+    String temp = "";
     if( (index = teste.indexOf("\"m\":")) != -1 ) {
       //Serial.println(index);
       indexf = teste.indexOf(':',index);
@@ -64,17 +64,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf(' ',indexf+2)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("m",teste.substring(indexf+2,indexl).toInt());
-      }
-    }
-    if( (index = teste.indexOf("\"p\":")) != -1 ) {
-      //Serial.println(index);
-      indexf = teste.indexOf(':',index);
-      //Serial.println(indexf);
-      if( (indexl = teste.indexOf(' ',indexf+2)) != -1) {
-        //Serial.println(indexl);
-        //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("p",teste.substring(indexf+2,indexl).toInt());
+        if( !root.set("m",teste.substring(indexf+2,indexl).toInt()) ) {
+          Serial.println("DEU MERDA A PARADA");
+        }
       }
     }
     if( (index = teste.indexOf("\"pd1\":")) != -1 ) {
@@ -84,7 +76,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf('"',indexf+3)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("pd1",teste.substring(indexf+3,indexl));
+        if ( !root.set("pd1",teste.substring(indexf+3,indexl)) ) {
+          Serial.println("DEU MERDA A PARADA");
+        }
       }
     }
     if( (index = teste.indexOf("\"pd2\":")) != -1 ) {
@@ -94,7 +88,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf('"',indexf+3)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("pd2",teste.substring(indexf+3,indexl));
+        if ( !root.set("pd2",teste.substring(indexf+3,indexl)) ) {
+          Serial.println("DEU MERDA A PARADA");
+        }
       }
     }
     if( (index = teste.indexOf("\"pl1\":")) != -1 ) {
@@ -104,7 +100,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf('"',indexf+3)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("pl1",teste.substring(indexf+3,indexl));
+        if( !root.set("pl1",teste.substring(indexf+3,indexl)) ) {
+          Serial.println("DEU MERDA A PARADA"); 
+        }
       }
     }
     if( (index = teste.indexOf("\"pl2\":")) != -1 ) {
@@ -114,7 +112,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf('"',indexf+3)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("pl2",teste.substring(indexf+3,indexl));
+        if( !root.set("pl2",teste.substring(indexf+3,indexl)) ) {
+          Serial.println("DEU MERDA A PARADA");
+        }
       }
     }
     if( (index = teste.indexOf("\"t1\":")) != -1 ) {
@@ -124,7 +124,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf(' ',indexf+2)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("t1",teste.substring(indexf+2,indexl).toInt());
+        if ( !root.set("t1",teste.substring(indexf+2,indexl).toInt()) ) {
+          Serial.println("DEU MERDA A PARADA");
+        }
       }
     }
     if( (index = teste.indexOf("\"t3\":")) != -1 ) {
@@ -134,7 +136,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf(' ',indexf+2)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("t3",teste.substring(indexf+2,indexl).toInt());
+        if( !root.set("t3",teste.substring(indexf+2,indexl).toInt()) ){
+          Serial.println("DEU MERDA A PARADA");
+        }
       }
     }
     if( (index = teste.indexOf("\"tt\":")) != -1 ) {
@@ -144,7 +148,9 @@ void deserialize(char* jsonstr)
       if( (indexl = teste.indexOf(' ',indexf+2)) != -1) {
         //Serial.println(indexl);
         //Serial.println(teste.substring(indexf+3,indexl));
-        root.set("tt",teste.substring(indexf+2,indexl).toInt());
+        if ( !root.set("tt",teste.substring(indexf+2,indexl).toInt()) ) {
+          Serial.println("DEU MERDA A PARADA");
+        }
       }
     }
    delay(DELAY_MS);  
