@@ -79,7 +79,6 @@ void serialize()
         root["tt"]  = data.tTrigger;
 
     root.printTo(Serial);
-    Serial.println("");
     delay(DELAY_MS);
     return;
 }
