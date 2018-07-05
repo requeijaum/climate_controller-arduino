@@ -1,0 +1,52 @@
+//ArduinoIonicComm - Rafael Requião e Lucas Borges
+
+#ifndef ARDUINOIONICCOMM_HPP
+#define ARDUINOIONICCOMM_HPP
+
+#include <Arduino.h>
+#include <String.h>
+#include "../ArduinoJson/ArduinoJson.h"
+
+#define JSONOBJECT_JSON_SIZE 128
+#define JSON_OUT_SIZE        128
+#define DELAY_MS             100
+
+struct SensorData {
+   uint8_t    Pres;
+   uint8_t    tTrigger;
+   uint8_t    tMin;
+   uint8_t    tAtual;
+   uint8_t    tMax;
+   
+};
+
+struct ProgramaHorario { 
+
+  String    pd1;
+  String    pd2;
+  String    pl1;
+  String    pl2; 
+  
+  uint8_t             mask;
+  uint8_t             domingo;
+  uint8_t             segunda;
+  uint8_t             terca;
+  uint8_t             quarta;
+  uint8_t             quinta;
+  uint8_t             sexta;
+  uint8_t             sabado;        
+  
+};
+
+typedef struct SensorData SensorData;
+typedef struct ProgramaHorario ProgramaHorario;
+
+void serialize(SensorData data, ProgramaHorario prog);
+
+void deserialize(SensorData* data, ProgramaHorario* prog, unsigned char* json);
+
+void lerSerial(String texto,unsigned char* teste);
+
+void checkbitmask();
+
+#endif
