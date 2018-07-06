@@ -302,22 +302,10 @@ void loop(void)
 
   //envia valor de pinPres (D7) --> variável "Pres"
   //data.Pres        = digitalRead(pinPres); 
-    //root.set("t2", (unsigned int)digitalRead(pinPres));
-    /*
-    if (temGente == 1){
-      data.Pres = 1;      
-    }
-
-    if (temGente == 0){
-      data.Pres = 0;      
-    }*/
-        
         
   //Serial.println(" --> deserialize(data, teste);");
   deserialize(&data,&prog,teste);
 
-
-  
   DateTime now = rtc.now();
 
   unsigned long currentMillis = millis();
@@ -332,10 +320,12 @@ void loop(void)
     /* Apareceu um t aqui */
     temGente = true;
     previousMillis = currentMillis;
+    data.Pres = 1;
   }
   else {
     digitalWrite(ledGreen, LOW);
     /*Serial.print(F("\t SEM MOVIMENTO "));*/
+    data.Pres = 0;
   }
 
   sensors.requestTemperatures(); // Send the command to get temperatures
