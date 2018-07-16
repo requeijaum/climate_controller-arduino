@@ -59,6 +59,6 @@ Por enquanto, como não disponibilizei licença: qualquer utilização, reprodu�
 
 ## Agradecimentos
 
-* Obrigado ao @bengtmartensson (que indicou a alteração na lib IRRemote)[https://github.com/z3t0/Arduino-IRremote/issues/238]
+* Obrigado ao @bengtmartensson [que indicou a alteração na lib IRRemote](https://github.com/z3t0/Arduino-IRremote/issues/238)
 * Obrigado Victor Ben-Hur pela oportunidade e pelo desafio de testar meus conhecimentos.
 * Obrigado Lucas Borges (@1uuc4asb) pelas novas ideias para otimização.
