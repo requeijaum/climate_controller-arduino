@@ -13,6 +13,7 @@
 
 struct SensorData {
    uint8_t    Pres;
+   uint8_t    s;
    uint8_t    tTrigger;
    uint8_t    tMin;
    uint8_t    tAtual;
@@ -38,15 +39,29 @@ struct ProgramaHorario {
   
 };
 
+struct Solicitacoes {
+  uint8_t solicitouGravacao;
+  uint8_t gravacaoRealizada;
+  uint8_t solicitouTeste;
+  uint8_t testeRealizado;
+
+  String dado;
+};
+
 typedef struct SensorData SensorData;
 typedef struct ProgramaHorario ProgramaHorario;
+typedef struct Solicitacoes Solicitacoes;
 
-void serialize(SensorData data, ProgramaHorario prog);
+void serialize(SensorData* data, ProgramaHorario* prog, Solicitacoes* sclts); 
 
-void deserialize(SensorData* data, ProgramaHorario* prog, unsigned char* json);
+void deserialize(SensorData* data, ProgramaHorario* prog, Solicitacoes* slcts,unsigned char* json);
 
 void lerSerial(String texto,unsigned char* teste);
 
-void checkbitmask();
+void checkbitmask(ProgramaHorario* prog);
+
+void checkslctsbitmask(SensorData* data,Solicitacoes* slcts);
+
+void atualizaStatus(SensorData* data,Solicitacoes* slcts);
 
 #endif
