@@ -44,6 +44,7 @@ struct Solicitacoes {
   uint8_t gravacaoRealizada;
   uint8_t solicitouTeste;
   uint8_t testeRealizado;
+  uint8_t configCompleta;
 
   String dado;
 };
