@@ -4,7 +4,7 @@
 
 void serialize(SensorData* data, ProgramaHorario* prog, Solicitacoes* sclts)
 {
-    StaticJsonBuffer<128> jsonBuffer;      //preciso mudar o tamanho a depender do JSON
+    StaticJsonBuffer<JSONOBJECT_JSON_SIZE> jsonBuffer;      //preciso mudar o tamanho a depender do JSON
     JsonObject& root = jsonBuffer.createObject();           //ou a depender de "int data.Status"
     atualizaStatus(data,sclts);
 
@@ -86,7 +86,7 @@ void deserialize(SensorData* data, ProgramaHorario* prog, Solicitacoes* slcts,un
           data->tMin      = root["t1"]; 
          }
 
-         if (root.containsKey("t2")){
+         if (root.containsKey("t2")){      // debug
           data->tAtual    = root["t2"]; 
          }
 
@@ -158,6 +158,9 @@ void checkslctsbitmask(SensorData* data,Solicitacoes* slcts) {
 
     if( (data->s & 4) == 4) slcts->solicitouTeste = 1;
     else slcts->solicitouTeste = 0;
+    
+    if( (data->s & 16) == 16) slcts->configCompleta = 1;
+    else slcts->configCompleta = 0;
 }
 
 void atualizaStatus(SensorData* data,Solicitacoes* slcts) {
@@ -173,5 +176,8 @@ void atualizaStatus(SensorData* data,Solicitacoes* slcts) {
     }
     if(slcts->testeRealizado == 1) {
         data->s += 8;
+    }
+    if(slcts->configCompleta == 1) {
+        data->s += 16;
     }
 }

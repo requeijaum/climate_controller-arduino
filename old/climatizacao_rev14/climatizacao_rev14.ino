@@ -57,7 +57,7 @@ struct ProgramaHorario             prog;
 
 //--------------------------------------------------------------------------------------------------------------
 
-
+/*
 void serialize(const SensorData& data, char* json, size_t maxSize, char* copy)
 {
     StaticJsonBuffer<JSONOBJECT_JSON_SIZE> jsonBuffer;      //preciso mudar o tamanho a depender do JSON
@@ -168,7 +168,7 @@ void deserialize(SensorData& data, char* json)
    return;
      
     }
-
+*/
 
 //---------------------------------------------------------------------------------------------
 
@@ -455,10 +455,10 @@ void setup(void)
   //seed para randomizar tAtual
   randomSeed(analogRead(0));
 
-  prog.pl1      = 1000;
-  prog.pd1      = 1200;
-  prog.pl2      = 1630;
-  prog.pd2      = 1740;
+ // prog.pl1      = "1000";
+//  prog.pd1      = "1200";
+ // prog.pl2      = "1630";
+ // prog.pd2      = "1740";
   
 
   data.tMax     = 26;
@@ -516,7 +516,7 @@ void setup(void)
 
 void loop(void)
 {
-
+  Desligar_FANCOIL();
   //variáveis de armazenamento de JSON - mudei pra local: economizou mais de 100 bytes de SRAM
   String    texto;
   char      teste[JSON_OUT_SIZE];
@@ -538,7 +538,7 @@ void loop(void)
         
         
   //Serial.println(" --> deserialize(data, teste);");
-  deserialize(data, teste);
+//  deserialize(data, teste);
 
 
   
@@ -733,10 +733,10 @@ void loop(void)
 
    
     //Serial.println(" --> serialize(data, JSON, JSON_OUT_SIZE);");
-    serialize(data, teste, JSON_OUT_SIZE, copia);
-    busy();  //obrigatório depois de enviar JSON
+    //serialize(data, teste, JSON_OUT_SIZE, copia);
+   // busy();  //obrigatório depois de enviar JSON
     //Serial.print("copia = ");
-    Serial.println(copia);
+  //  Serial.println(copia);
 }
 /*
   // function to print a device address

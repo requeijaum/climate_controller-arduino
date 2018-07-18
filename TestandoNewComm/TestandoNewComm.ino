@@ -2,6 +2,7 @@
 #include <SoftwareSerial.h> // import the serial library
 #include <String.h>
 #include <ArduinoIonicComm.h>
+#include <ArduinoIRComm.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <Wire.h>
@@ -35,6 +36,7 @@ DallasTemperature sensors(&oneWire);
 DeviceAddress tempDeviceAddress; // We'll use this variable to store a found device address
 RTC_DS3231 rtc;
 IRsend irsend;
+
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
 
 
@@ -44,7 +46,7 @@ char khz = 38; // 38kHz carrier frequency for the NEC protocol
 
 unsigned long previousMillisPres = 0;        // will store last time LED was updated
 unsigned long previousMillisTemp = 0;
-unsigned long currentMillis; // Inicializado para teste ---- precisa ser inicializado com o valor de intervalo da temperatura ( provavelmente 10 minutos )
+unsigned long currentMillis; 
 boolean firstActionFlag;
 
 int deltaTemp;
@@ -62,13 +64,16 @@ float temperatura;
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////// COPIEI TUDO DO CÓDIGO ANTERIOR POR QUE PODE SER UTIL
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////// COPIEI TUDO DO CÓDIGO ANTERIOR POR QUE PODE SER UTIL  ^^^^^^^^^^^^^^^^^^^^^^
 
 
 
 SensorData data;
 ProgramaHorario prog;
 Solicitacoes slcts;
+
+IRSignals irsignals;
+//arStatus arstatus;
 
 
 
@@ -93,7 +98,7 @@ void loop() {
   String    texto;
   char      teste[JSON_OUT_SIZE];
   
-
+  // MUDO CURRENTMILLIS POR APENAS MILLIS() ???????? POSSO FAZER ISSO????? SE SIM, DARIA MAIS PRECISAO
   lerSerial(texto, teste);
   deserialize(&data,&prog,&slcts,teste);
   if( slcts.solicitouGravacao == 1 || slcts.solicitouTeste == 1 ) {            // Se solicitou gravação ou teste 
@@ -101,6 +106,7 @@ void loop() {
         if(slcts.dado != "0") {                                               // Se pegou o dado a ser gravado
         //  Serial.println("Pegou dado.");
          // Serial.println("Solicitou gravacao, gravacao feita");
+         gravarIR(slcts.dado,&irsignals, IR_Remote);
           slcts.solicitouGravacao = 0;
           slcts.gravacaoRealizada = 1;
           slcts.dado = "0";
@@ -114,6 +120,7 @@ void loop() {
         if(slcts.dado != "0") {                                             // Se pegou dado a ser testado
        //   Serial.println("Pegou dado.");
        //   Serial.println("Solicitou teste, teste feito");
+          testarIR(slcts.dado, irsignals/*, &arstatus*/);
           slcts.solicitouTeste = 0;
           slcts.testeRealizado = 1;
           slcts.dado = "0";
@@ -125,7 +132,7 @@ void loop() {
       }
   }
   else if(slcts.configCompleta){                                       // Se a configuração está completa rode o código;
-    Serial.println("Codigo rodando.");
+    //Serial.println("Codigo rodando.");
     // TODO: Biblioteca para controle do IR, Biblioteca para o controle do Ar condicionado
     
     if(1) { // Esta condicional deve ser feita após configurar o RTC, deve ter: Se o horário atual está dentro do horário de funcionamento
@@ -149,25 +156,29 @@ void loop() {
         previousMillisPres = currentMillis;
       }
       else { // Caso contrário rode o algoritmo
-        if( ((data.tAtual <  data.tMin || data.tAtual > data.tMax)) && ((currentMillis - previousMillisTemp >= ((unsigned long) 1 * (unsigned long) 60 * (unsigned long) 1000)) || firstActionFlag == false ) ) { // Se a temperatura atual estiver fora do intervalo e qualquer ação tenha sido tomada há algum tempo
+        if( ((data.tAtual <  data.tMin || data.tAtual > data.tMax)) && ((currentMillis - previousMillisTemp >= ((unsigned long) 1 * (unsigned long) 60 * (unsigned long) 1000)) || firstActionFlag == false ) ) { // Se a temperatura atual estiver fora do intervalo e qualquer ação tenha sido tomada há 10 minutos ( tempo suficiente para qualquer ambiente resfriar ou aquecer ) entre OU que nenhuma ação tenha sido tomada ainda.
           firstActionFlag = true;
-          Serial.println("Tomando ação para regular temp");
+         // Serial.println("Tomando ação para regular temp");
           if(data.tAtual < data.tMin) { // Se estiver abaixo do desejado
+            //meche nos leds para mostrar que a temperatura esta abaixo do intervalo
             deltaTemp = data.tMin - data.tAtual;
             // aumentarTemp( arrayTEMPERATURAS ,TEMPERATURA ATUAL DO APARELHO DE REFRIGERAÇÃO + deltaTemp );
-            Serial.println("Aumentou temp");
+            //Serial.println("Aumentou temp");
           }
           else { // Se estiver acima do desejado
             deltaTemp = data.tAtual - data.tMax;
             // diminuirTemp ( arrayTEMPERATURAS , TEMPERATURA ATUAL DO APARELHO DE REFRIGERAÇÃO - deltaTemp );
-            Serial.println("Diminuiu temp");
+           // Serial.println("Diminuiu temp");
           }
           previousMillisTemp = currentMillis;
+        }
+        else {
+          //meche nos leds pra mostrar que a temperatura esta no intervalo
+          // quem sabe regula para que a temperatura fique na media do intervalo, ou variando dentro do intervalo
         }
       }
     }
   }
-  // Aparentemente o Millis
   serialize(&data,&prog,&slcts);
   delay(1500);
 

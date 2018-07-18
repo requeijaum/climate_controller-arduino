@@ -7,8 +7,8 @@
 #include <String.h>
 #include "../ArduinoJson/ArduinoJson.h"
 
-#define JSONOBJECT_JSON_SIZE 128
-#define JSON_OUT_SIZE        128
+#define JSONOBJECT_JSON_SIZE 160
+#define JSON_OUT_SIZE        160
 #define DELAY_MS             100
 
 struct SensorData {
