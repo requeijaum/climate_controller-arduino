@@ -18,7 +18,7 @@ struct sinais {
    //unsigned int t20[200];
    //unsigned int t21[200];
    //unsigned int t22[200];
-   unsigned int t23[200];
+   unsigned int t23[199];
    //unsigned int t24[200];
    //unsigned int t25[200];
    //unsigned int t26[200];
@@ -42,7 +42,7 @@ typedef struct status arStatus;
 void gravarIR(String dado, IRSignals* x, IRrecv irrecv);
 void record(decode_results *results, unsigned int* comando);
 
-void testarIR(String dado, IRSignals x, IRsend irsend/*, arStatus* y*/);
+void testarIR(String dado, IRSignals x/*, arStatus* y*/);
 
 void mandarSinalIR(int deltaTemp, IRSignals x, arStatus* y);
 void mandarSinalIR(String comando, IRSignals x, arStatus* y);

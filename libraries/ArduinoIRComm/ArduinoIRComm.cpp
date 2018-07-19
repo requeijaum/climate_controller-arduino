@@ -71,124 +71,68 @@ void gravarIR(String dado, IRSignals* x, IRrecv irrecv) {
 }
 
 void record(decode_results *results, unsigned int* comando) {
-  // Dumps out the decode_results structure.
-  // Call this after IRrecv::decode()
-  int count = results->rawlen;
-  /*if (results->decode_type == UNKNOWN) {
-    Serial.print("Unknown encoding: ");
+  int count = results->rawlen-1;
+  for (int i = 0; i < count; i++) {
+    comando[i] = (unsigned long) results->rawbuf[i+1] * USECPERTICK;
   }
-  else if (results->decode_type == NEC) {
-    Serial.print("Decoded NEC: ");
-
-  }
-  else if (results->decode_type == SONY) {
-    Serial.print("Decoded SONY: ");
-  }
-  else if (results->decode_type == RC5) {
-    Serial.print("Decoded RC5: ");
-  }
-  else if (results->decode_type == RC6) {
-    Serial.print("Decoded RC6: ");
-  }
-  else if (results->decode_type == PANASONIC) {
-    Serial.print("Decoded PANASONIC - Address: ");
-    Serial.print(results->address, HEX);
-    Serial.print(" Value: ");
-  }
-  else if (results->decode_type == LG) {
-    Serial.print("Decoded LG: ");
-  }
-  else if (results->decode_type == JVC) {
-    Serial.print("Decoded JVC: ");
-  }
-  else if (results->decode_type == AIWA_RC_T501) {
-    Serial.print("Decoded AIWA RC T501: ");
-  }
-  else if (results->decode_type == WHYNTER) {
-    Serial.print("Decoded Whynter: ");
-  }
-  Serial.print(results->value, HEX);
-  Serial.print(" (");
-  Serial.print(results->bits, DEC);
-  Serial.println(" bits)");
-  Serial.print("Raw (");
-  Serial.print(count, DEC);
-  Serial.print("): ");*/
-    Serial.println(count);
-  for (int i = 1; i < count; i++) {
-    /*if (i & 1) {
-      Serial.print(results->rawbuf[i]*USECPERTICK, DEC);
-    }
-    else {
-      Serial.write('-');
-      Serial.print((unsigned long) results->rawbuf[i]*USECPERTICK, DEC);
-    }
-    Serial.print(" ");*/
-
-    comando[i] = (unsigned long) results->rawbuf[i] * USECPERTICK;
-  }
-  //Serial.println();
 }
 
-void testarIR(String dado, IRSignals x, IRsend irsend/*, arStatus* y*/) {
-    //IRsend irsend;
-    unsigned int* dadoAtual;
+void testarIR(String dado,/* unsigned int *  dadoAtual*/ IRSignals x /*, IRsend irsend, arStatus* y*/) {
+    IRsend irsend;
     /*if( dado == "l" ) {
-        dadoAtual = x.l;
+        irsend.sendRaw(x.l, sizeof(x.l) / sizeof(x.l[0]), FREQUENCY);
     }
     if( dado == "d" ) {
-        dadoAtual = x.d;
+        irsend.sendRaw(x.d, sizeof(x.t23) / sizeof(x.d[0]), FREQUENCY);
     }
     if( dado == "15" ) {
-        dadoAtual = x.t15;
+        irsend.sendRaw(x.t15, sizeof(x.t15) / sizeof(x.t15[0]), FREQUENCY);
     }
     if( dado == "16" ) {
-        dadoAtual = x.t16;
+        irsend.sendRaw(x.t23, sizeof(x.t23) / sizeof(x.t23[0]), FREQUENCY);
     }
     if( dado == "17" ) {
-        dadoAtual = x.t17;
+        irsend.sendRaw(x.t19, sizeof(x.t19) / sizeof(x.t19[0]), FREQUENCY);
     }
     if( dado == "18" ) {
-        dadoAtual = x.t18;
+        irsend.sendRaw(x.t18, sizeof(x.t18) / sizeof(x.t18[0]), FREQUENCY);
     }
     if( dado == "19" ) {
-        dadoAtual = x.t19;
+        irsend.sendRaw(x.t19, sizeof(x.t19) / sizeof(x.t19[0]), FREQUENCY);
     }
     if( dado == "20" ) {
-        dadoAtual = x.t20;
+        irsend.sendRaw(x.t20, sizeof(x.t20) / sizeof(x.t20[0]), FREQUENCY);
     }
     if( dado == "21" ) {
-        dadoAtual = x.t21;
+        irsend.sendRaw(x.t21, sizeof(x.t21) / sizeof(x.t21[0]), FREQUENCY);
     }
     if( dado == "22" ) {
-        dadoAtual = x.t22;
+        irsend.sendRaw(x.t22, sizeof(x.t22) / sizeof(x.t22[0]), FREQUENCY);
     }*/
     if( dado == "23" ) {
-        Serial.println("entrou no 23");
-        dadoAtual = x.t23;
+        irsend.sendRaw(x.t23, sizeof(x.t23) / sizeof(x.t23[0]), FREQUENCY);
     }/*
     if( dado == "24" ) {
-        dadoAtual = x.t24;
+        irsend.sendRaw(x.t24, sizeof(x.t24) / sizeof(x.t24[0]), FREQUENCY);
     }
     if( dado == "25" ) {
-        dadoAtual = x.t25;
+        irsend.sendRaw(x.t25, sizeof(x.t25) / sizeof(x.t25[0]), FREQUENCY);
     }
     if( dado == "26" ) {
-        dadoAtual = x.t26;
+        irsend.sendRaw(x.t26, sizeof(x.t26) / sizeof(x.t26[0]), FREQUENCY);
     }
     if( dado == "27" ) {
-        dadoAtual = x.t27;
+        irsend.sendRaw(x.t27, sizeof(x.t27) / sizeof(x.t27[0]), FREQUENCY);
     }
     if( dado == "28" ) {
-        dadoAtual = x.t28;
+        irsend.sendRaw(x.t28, sizeof(x.t28) / sizeof(x.t28[0]), FREQUENCY);
     }
     if( dado == "29" ) {
-        dadoAtual = x.t29;
+        irsend.sendRaw(x.t29, sizeof(x.t29) / sizeof(x.t29[0]), FREQUENCY);
     }
     if( dado == "30" ) {
-        dadoAtual = x.t30;
+        irsend.sendRaw(x.t30, sizeof(x.t30) / sizeof(x.t30[0]), FREQUENCY);
     }*/
-    irsend.sendRaw_P(dadoAtual, sizeof(dadoAtual) / sizeof(dadoAtual[0]), FREQUENCY);
 }
 
 void mandarSinalIR(int deltaTemp, IRSignals x, arStatus* y) {
