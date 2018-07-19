@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <String.h>
 #include "../IRremote/IRremote.h"
-
+#include <stdlib.h>
 #define FREQUENCY 38
 
 struct sinais {
