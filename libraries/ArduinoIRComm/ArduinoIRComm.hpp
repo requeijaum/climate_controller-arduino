@@ -8,25 +8,26 @@
 
 struct sinais {
 
-   //unsigned int l [200];
-   //unsigned int d [200];
-  // unsigned int t15[200];
-   //unsigned int t16[200];
-   //unsigned int t17[200];
-   //unsigned int t18[200];
-   //unsigned int t19[200];
-   //unsigned int t20[200];
-   //unsigned int t21[200];
-   //unsigned int t22[200];
-   unsigned int t23[199];
-   //unsigned int t24[200];
-   //unsigned int t25[200];
-   //unsigned int t26[200];
-   //unsigned int t27[200];
-   //unsigned int t28[200];
-   //unsigned int t29[200];
-   //unsigned int t30[200];
+   unsigned int *   l = NULL;
+   unsigned int *   d = NULL;
+   unsigned int * t15 = NULL;
+   unsigned int * t16 = NULL;
+   unsigned int * t17 = NULL;
+   unsigned int * t18 = NULL;
+   unsigned int * t19 = NULL;
+   unsigned int * t20 = NULL;
+   unsigned int * t21 = NULL;
+   unsigned int * t22 = NULL;
+   unsigned int * t23 = NULL;
+   unsigned int * t24 = NULL;
+   unsigned int * t25 = NULL;
+   unsigned int * t26 = NULL;
+   unsigned int * t27 = NULL;
+   unsigned int * t28 = NULL;
+   unsigned int * t29 = NULL;
+   unsigned int * t30 = NULL;
 
+   int irSignalsLength;
 };
 
 struct status {
@@ -40,10 +41,7 @@ typedef struct sinais IRSignals;
 typedef struct status arStatus;
 
 void gravarIR(String dado, IRSignals* x, IRrecv irrecv);
-void record(decode_results *results, unsigned int* comando);
 
-void testarIR(String dado, IRSignals x/*, arStatus* y*/);
+void mandarSinalIR(String dado, IRSignals x , arStatus* y);
 
-void mandarSinalIR(int deltaTemp, IRSignals x, arStatus* y);
-void mandarSinalIR(String comando, IRSignals x, arStatus* y);
 
