@@ -35,7 +35,7 @@ OneWire oneWire(pinTemp);
 DallasTemperature sensors(&oneWire);
 DeviceAddress tempDeviceAddress; // We'll use this variable to store a found device address
 RTC_DS3231 rtc;
-IRsend irsend;
+IRrecv irrecv(IR_Remote);
 
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
 
@@ -73,7 +73,7 @@ ProgramaHorario prog;
 Solicitacoes slcts;
 
 IRSignals irsignals;
-//arStatus arstatus;
+arStatus arstatus;
 
 
 
@@ -85,6 +85,7 @@ void setup() {
   prog.pl2      = "1630";
   prog.pd2      = "1740";
 
+  data.tAtual   = 25;
   data.tMax     = 26;
   data.tMin     = 20;  
   data.tTrigger = 15;
@@ -106,7 +107,7 @@ void loop() {
         if(slcts.dado != "0") {                                               // Se pegou o dado a ser gravado
         //  Serial.println("Pegou dado.");
          // Serial.println("Solicitou gravacao, gravacao feita");
-         gravarIR(slcts.dado,&irsignals, IR_Remote);
+         gravarIR(slcts.dado,&irsignals, irrecv);
           slcts.solicitouGravacao = 0;
           slcts.gravacaoRealizada = 1;
           slcts.dado = "0";
@@ -120,7 +121,7 @@ void loop() {
         if(slcts.dado != "0") {                                             // Se pegou dado a ser testado
        //   Serial.println("Pegou dado.");
        //   Serial.println("Solicitou teste, teste feito");
-          testarIR(slcts.dado, irsignals/*, &arstatus*/);
+          mandarSinalIR(slcts.dado, irsignals, &arstatus);
           slcts.solicitouTeste = 0;
           slcts.testeRealizado = 1;
           slcts.dado = "0";
@@ -142,6 +143,7 @@ void loop() {
         previousMillisPres = currentMillis;
         data.Pres = 1;
         if(1){ // Se o ar condicionado não estiver ligado ligue-o agora.
+          //mandarSinalIR("l", irsignals, &arstatus);
         //  Serial.println("Se ar-condicionado não estava ligado, ligou agora");
         }
       }
@@ -153,6 +155,7 @@ void loop() {
         // Desliga a.r.
         // meche em led's
        // Serial.println("Desligou a.r.");
+       // mandarSinalIR("d", irsignals, &arstatus);
         previousMillisPres = currentMillis;
       }
       else { // Caso contrário rode o algoritmo
@@ -162,12 +165,12 @@ void loop() {
           if(data.tAtual < data.tMin) { // Se estiver abaixo do desejado
             //meche nos leds para mostrar que a temperatura esta abaixo do intervalo
             deltaTemp = data.tMin - data.tAtual;
-            // aumentarTemp( arrayTEMPERATURAS ,TEMPERATURA ATUAL DO APARELHO DE REFRIGERAÇÃO + deltaTemp );
+            // mandarSinalIR(deltaTemp, irsignals, &arstatus);
             //Serial.println("Aumentou temp");
           }
           else { // Se estiver acima do desejado
             deltaTemp = data.tAtual - data.tMax;
-            // diminuirTemp ( arrayTEMPERATURAS , TEMPERATURA ATUAL DO APARELHO DE REFRIGERAÇÃO - deltaTemp );
+            // mandarSinalIR(deltaTemp, irsignals, &arstatus);
            // Serial.println("Diminuiu temp");
           }
           previousMillisTemp = currentMillis;
