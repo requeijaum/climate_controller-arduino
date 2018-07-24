@@ -3,6 +3,7 @@
 #include "ArduinoIRComm.h"
 
 void gravarIR(String dado, IRSignals* x, IRrecv irrecv) {
+    Serial.println("Gravando sinal...");
     decode_results results;
     irrecv.enableIRIn();
     bool flag = false;
@@ -75,9 +76,11 @@ void gravarIR(String dado, IRSignals* x, IRrecv irrecv) {
         }
     }
     if( dado.equals("23") ) {
+        Serial.println("entrou 23");
         x->t23 = new unsigned int[count];
         for (int i = 0; i < count; i++) {
             x->t23[i] = (unsigned long) results.rawbuf[i+1] * USECPERTICK;
+            Serial.println(x->t23[i]);
         }
     }
     if( dado == "24" ) {
@@ -122,10 +125,12 @@ void gravarIR(String dado, IRSignals* x, IRrecv irrecv) {
             x->t30[i] = (unsigned long) results.rawbuf[i+1] * USECPERTICK;
         }
     }
+    Serial.println("Sinal gravado.");
 }
 
 void mandarSinalIR(String dado, IRSignals x , arStatus* y) {
     IRsend irsend;
+    Serial.println("Enviando sinal...");
     if( dado == "l" ) {
         unsigned int a[x.irSignalsLength];
         for(int i=0;i<x.irSignalsLength; i++) {
@@ -288,6 +293,7 @@ void mandarSinalIR(String dado, IRSignals x , arStatus* y) {
         irsend.sendRaw( a, sizeof(a) / sizeof(a[0]) , FREQUENCY);
         y->tAtual = 30;
     }
+    Serial.println("Sinal enviado.");
 }
 
 unsigned int * getPointerSinal (String dado, IRSignals x) {

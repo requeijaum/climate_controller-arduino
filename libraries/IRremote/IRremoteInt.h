@@ -40,7 +40,7 @@
 //------------------------------------------------------------------------------
 // Information for the Interrupt Service Routine
 //
-#define RAWBUF  200  // Maximum length of raw duration buffer
+#define RAWBUF  201  // Maximum length of raw duration buffer
 
 typedef
 	struct {

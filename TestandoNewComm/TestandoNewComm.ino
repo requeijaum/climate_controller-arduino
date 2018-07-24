@@ -3,13 +3,15 @@
 #include <String.h>
 #include <ArduinoIonicComm.h>
 #include <ArduinoIRComm.h>
+/*
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include <Wire.h>
-#include "RTClib.h"
+#include <Wire.h>*/
+//#include <MemoryFree.h>
+//#include "RTClib.h"
 // Controle remoto
 #include <IRremote.h>
-
+/*
 
 #define pinPres                   12      //igual a pirPin
 #define DELAY_LED                 250     //mudei - era 300
@@ -18,8 +20,8 @@
 #define ledRed        5
 #define ledBlue       10
 #define ledGreen      6
-#define IR_LED        3
-#define IR_Remote     2
+#define IR_LED        3*/
+#define IR_Remote     2/*
 #define rele          9
 #define pinTemp       4
 #define TEMPERATURE_PRECISION 12
@@ -28,13 +30,14 @@
 #define STATE_ON   1
 // LED INFRAVERMELHO USAR O PINO 3 (TIMER 2) DO ARDUINO
 #define IR_USE_TIMER2
-// Data wire is plugged into port 2 on the Arduino
-
+// Data wire is plugged into port 2 on the Arduino*/
+/*
 OneWire oneWire(pinTemp);
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature sensors(&oneWire);
 DeviceAddress tempDeviceAddress; // We'll use this variable to store a found device address
 RTC_DS3231 rtc;
+*/
 IRrecv irrecv(IR_Remote);
 
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
@@ -42,19 +45,19 @@ IRrecv irrecv(IR_Remote);
 
 
 //int 
-char khz = 38; // 38kHz carrier frequency for the NEC protocol
+//char khz = 38; // 38kHz carrier frequency for the NEC protocol
 
 unsigned long previousMillisPres = 0;        // will store last time LED was updated
 unsigned long previousMillisTemp = 0;
 unsigned long currentMillis; 
 boolean firstActionFlag;
 
-int deltaTemp;
+//int deltaTemp;
 
 //int
-char    fsm_state;
+//char    fsm_state;
 
-float temperatura;
+//float temperatura;
 
 //char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
@@ -107,6 +110,8 @@ void loop() {
         if(slcts.dado != "0") {                                               // Se pegou o dado a ser gravado
         //  Serial.println("Pegou dado.");
          // Serial.println("Solicitou gravacao, gravacao feita");
+        // Serial.print("dado =");
+         //Serial.println(slcts.dado);
          gravarIR(slcts.dado,&irsignals, irrecv);
           slcts.solicitouGravacao = 0;
           slcts.gravacaoRealizada = 1;
@@ -121,6 +126,8 @@ void loop() {
         if(slcts.dado != "0") {                                             // Se pegou dado a ser testado
        //   Serial.println("Pegou dado.");
        //   Serial.println("Solicitou teste, teste feito");
+      // Serial.print("dado =");
+      /// Serial.println(slcts.dado);
           mandarSinalIR(slcts.dado, irsignals, &arstatus);
           slcts.solicitouTeste = 0;
           slcts.testeRealizado = 1;
@@ -131,7 +138,7 @@ void loop() {
           slcts.solicitouTeste = 0;
         }
       }
-  }
+  }/*
   else if(slcts.configCompleta){                                       // Se a configuração está completa rode o código;
     //Serial.println("Codigo rodando.");
     // TODO: Biblioteca para controle do IR, Biblioteca para o controle do Ar condicionado
@@ -181,8 +188,10 @@ void loop() {
         }
       }
     }
-  }
+  }*/
   serialize(&data,&prog,&slcts);
+  //Serial.print("freeMemory()=");
+    //Serial.println(freeMemory());
   delay(1500);
 
   
